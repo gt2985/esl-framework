@@ -4,40 +4,93 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Build outputs
+# Build output
 dist/
 build/
+lib/
 *.tsbuildinfo
 
-# Testing
-coverage/
-.nyc_output/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Environment
-.env
-.env.local
-.env.production
-
-# Logs
-*.log
-logs/
-
-# Runtime
+# Runtime data
 pids/
 *.pid
 *.seed
 *.pid.lock
 
-# ESL specific
-generated/
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Test output
+test-output/
+test-results/
+
+# ESL Framework specific
 *.esl.yaml.bak
+*.esl.backup
+.esl-cache/
+.esl-temp/
+
+# Generated files
+generated/
+*.generated.*
+
+# Package manager lockfiles (keep package-lock.json, ignore others)
+yarn.lock
+pnpm-lock.yaml
+
+# Backup files
+*.backup.*
+backup/
+
+# Sync temp directories
+test-sync-temp/
+*-sync-temp/
+
+# Documentation build
+docs/build/
+docs/generated/
+
+# Examples with generated code
+examples/*/generated/
+examples/*/dist/
+examples/*/build/
+
+# Test artifacts
+test-project/generated/
+test-project/dist/
