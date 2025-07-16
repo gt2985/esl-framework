@@ -1,0 +1,37 @@
+eslVersion: '1.0'
+project:
+  name: 'Test CRM'
+  description: 'A test CRM specification.'
+  version: '1.0.0'
+  author: 'AI Assistant'
+dataModels:
+  User:
+    description: 'Represents a user of the system.'
+    properties:
+      id:
+        type: 'uuid'
+        description: 'Primary key'
+        required: true
+      username:
+        type: 'string'
+        description: "User's login name"
+        required: true
+      email:
+        type: 'string'
+        description: "User's email address"
+        required: true
+  Account:
+    description: 'Represents a customer account.'
+    properties:
+      id:
+        type: 'uuid'
+        description: 'Primary key'
+        required: true
+      name:
+        type: 'string'
+        description: 'Name of the account'
+        required: true
+      ownerId:
+        type: 'uuid'
+        description: 'ID of the user who owns the account'
+        required: true

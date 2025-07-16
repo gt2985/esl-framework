@@ -1,0 +1,11 @@
+erDiagram
+    User {
+        uuid id "Primary key"
+        string username "User's login name"
+        string email "User's email address"
+    }
+    Account {
+        uuid id "Primary key"
+        string name "Name of the account"
+        uuid ownerId "ID of the user who owns the account"
+    }

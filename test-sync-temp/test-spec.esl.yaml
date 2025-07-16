@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "id": "test-sync-spec",
+    "title": "Test Sync Specification",
+    "description": "Test specification for bidirectional sync",
+    "author": "Test Suite"
+  },
+  "dataModels": {
+    "User": {
+      "id": "User",
+      "name": "User",
+      "description": "User model",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "User ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "User name"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email"
+        },
+        "age": {
+          "type": "number",
+          "description": "User age"
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "User active status"
+        }
+      }
+    },
+    "Product": {
+      "id": "Product",
+      "name": "Product",
+      "description": "Product model",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Product ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Product name"
+        },
+        "price": {
+          "type": "number",
+          "description": "Product price"
+        },
+        "categoryId": {
+          "type": "string",
+          "description": "Category ID"
+        }
+      }
+    }
+  },
+  "services": {
+    "UserService": {
+      "id": "UserService",
+      "name": "UserService",
+      "description": "User service",
+      "methods": {
+        "createUser": {
+          "description": "Create a new user",
+          "parameters": [
+            {
+              "name": "userData",
+              "type": "User"
+            }
+          ],
+          "returnType": "User"
+        },
+        "getUserById": {
+          "description": "Get user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "type": "string"
+            }
+          ],
+          "returnType": "User"
+        }
+      }
+    }
+  },
+  "apiEndpoints": [
+    {
+      "id": "create-user",
+      "path": "/api/users",
+      "method": "POST",
+      "description": "Create new user",
+      "parameters": [
+        {
+          "name": "userData",
+          "type": "User",
+          "in": "body"
+        }
+      ],
+      "response": {
+        "type": "User",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "id": "get-user",
+      "path": "/api/users/:id",
+      "method": "GET",
+      "description": "Get user by ID",
+      "parameters": [
+        {
+          "name": "id",
+          "type": "string",
+          "in": "path"
+        }
+      ],
+      "response": {
+        "type": "User"
+      }
+    }
+  ]
+}

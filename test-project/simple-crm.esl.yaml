@@ -1,0 +1,58 @@
+# Simple CRM ESL Specification
+metadata:
+  version: "1.0.0"
+  id: "simple-crm"
+  title: "Simple CRM System"
+  description: "Customer relationship management system"
+  author: "ESL Framework"
+  created: "2025-07-15T23:48:28.331Z"
+
+businessRules:
+  - id: "customer-validation"
+    name: "Customer Validation"
+    description: "Customers must have valid contact information"
+    condition: "customer is created or updated"
+    action: "validate email format and phone number"
+    priority: 1
+    enabled: true
+
+dataStructures:
+  - id: "customer"
+    name: "Customer"
+    type: "object"
+    description: "Customer entity with contact information"
+    fields:
+      - name: "id"
+        type: "string"
+        required: true
+        description: "Unique customer identifier"
+      - name: "email"
+        type: "string"
+        required: true
+        description: "Customer email address"
+        validation:
+          - type: "pattern"
+            pattern: "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+            message: "Must be a valid email address"
+      - name: "name"
+        type: "string"
+        required: true
+        description: "Customer full name"
+      - name: "company"
+        type: "string"
+        required: false
+        description: "Customer company name"
+
+aiContext:
+  modelHints:
+    - "@generation_target: typescript_react_app"
+    - "@architectural_pattern: clean_architecture"
+  constraints:
+    - "Use TypeScript for type safety"
+    - "Follow React best practices"
+    - "Implement proper error handling"
+
+governance:
+  approvalStatus: "draft"
+  riskLevel: "low"
+  complianceFrameworks: ["gdpr"]
