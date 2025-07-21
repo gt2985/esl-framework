@@ -14,6 +14,7 @@ This document provides a complete reference for all ESL Framework CLI commands.
 - [import](#import) - Import from external sources
 - [interactive](#interactive) - Interactive specification builder
 - [visualize](#visualize) - Generate diagrams
+- [reverse](#reverse) - Generate specification from source code
 
 ## Global Options
 
@@ -362,6 +363,142 @@ esl visualize my-spec.esl.yaml --output my-diagram
 - **Mermaid**: `.mmd` file for Mermaid diagrams
 - **SVG**: `.svg` file for scalable vector graphics
 - **PNG**: `.png` file for raster images (requires mermaid-cli)
+
+## reverse
+
+Generate ESL specification from existing source code (reverse engineering).
+
+### Usage
+
+```bash
+esl reverse <source> [options]
+```
+
+### Arguments
+
+- `<source>` - Source path (GitHub repository URL or local directory)
+
+### Options
+
+- `-o, --output <file>` - Output ESL file (default: "reverse-engineered.esl.yaml")
+- `-l, --language <lang>` - Source language: "typescript", "javascript", "python" (default: "typescript")
+- `-p, --patterns <patterns>` - File patterns to analyze (default: "**/*.ts,**/*.js")
+- `--include-comments` - Include code comments as descriptions
+- `--infer-relationships` - Infer relationships between models (default: true)
+- `--detect-apis` - Detect API endpoints from routing code (default: true)
+- `--dry-run` - Show what would be generated without creating files
+- `--verbose` - Verbose output
+
+### Examples
+
+```bash
+# Generate spec from GitHub repository
+esl reverse https://github.com/user/my-app --output my-app.esl.yaml
+
+# Generate spec from local TypeScript project
+esl reverse ./src --language typescript --include-comments
+
+# Generate spec with custom patterns
+esl reverse ./backend --patterns "**/*.service.ts,**/*.model.ts"
+
+# Dry run to preview generated specification
+esl reverse ./my-project --dry-run --verbose
+
+# Generate from JavaScript project
+esl reverse ./js-app --language javascript --output js-app.esl.yaml
+```
+
+### Supported Features
+
+#### TypeScript/JavaScript Analysis
+- **Interfaces**: Converted to ESL data models
+- **Classes**: Analyzed for services (if ending in Service/Controller) or data models
+- **Enums**: Converted to ESL enum types
+- **Method Signatures**: Extracted for service definitions
+- **Comments**: Included as descriptions when `--include-comments` is used
+- **Type Relationships**: Automatically inferred between models
+
+#### Model Inference
+- **Property Types**: Automatically mapped to ESL types
+- **Required/Optional**: Detected from TypeScript optional properties
+- **Relationships**: Inferred from property types that reference other models
+- **Collections**: Array types automatically detected as `has_many` relationships
+
+#### Service Detection
+- **Service Classes**: Classes ending in "Service" or "Controller"
+- **Method Parameters**: Extracted with types
+- **Return Types**: Automatically detected
+- **Async Methods**: Properly handled
+
+### Generated Specification Structure
+
+```yaml
+eslVersion: "1.0.0"
+project:
+  name: "My Project"
+  version: "1.0.0"
+  description: "Auto-generated from source code"
+  repository: "https://github.com/user/my-project"
+
+metadata:
+  generated: "2024-01-15T10:30:00Z"
+  source: "/path/to/source"
+  author: "ESL Framework Reverse Engineering"
+
+dataModels:
+  User:
+    type: "interface"
+    properties:
+      id:
+        type: "string"
+        required: true
+      name:
+        type: "string"
+        required: true
+      email:
+        type: "string"
+        required: true
+    relationships:
+      - type: "has_many"
+        target: "Order"
+        property: "orders"
+
+services:
+  UserService:
+    methods:
+      createUser:
+        parameters:
+          - name: "userData"
+            type: "User"
+        returns: "User"
+        description: "Creates a new user"
+```
+
+### Validation
+
+The reverse command automatically validates the generated specification and provides warnings for:
+- Empty models (models without properties)
+- Empty services (services without methods)
+- Missing descriptions
+- Potential relationship issues
+
+### Integration with Other Commands
+
+After generating a specification, you can immediately use other ESL commands:
+
+```bash
+# Generate specification from code
+esl reverse ./src --output my-spec.esl.yaml
+
+# Validate the generated specification
+esl validate my-spec.esl.yaml --strict
+
+# Check for drift (should show no drift initially)
+esl diff my-spec.esl.yaml ./src
+
+# Generate fresh code from specification
+esl generate typescript my-spec.esl.yaml -o ./generated
+```
 
 ## Environment Variables
 

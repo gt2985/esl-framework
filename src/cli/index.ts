@@ -19,6 +19,7 @@ import { interactiveCommand } from './commands/interactive.js';
 import { visualizeCommand } from './commands/visualize.js';
 import { diffCommand } from './commands/diff.js';
 import { syncCommand } from './commands/sync.js';
+import { reverseCommand } from './commands/reverse.js';
 
 // Get version from package.json
 function getVersion(): string {
@@ -174,6 +175,9 @@ function registerCommands(program: Command): void {
     .option('-b, --backup', 'create backups of modified files')
     .option('-v, --verbose', 'show detailed progress')
     .action((specFile, codeDir, options) => syncCommand(specFile, codeDir, options));
+
+  // Reverse engineering command
+  program.addCommand(reverseCommand);
 }
 
 async function main(): Promise<void> {
@@ -202,6 +206,12 @@ ${chalk.yellow('Examples:')}
 
   ${chalk.cyan('esl context chunk my-spec.esl.yaml --tokens 2000 --format yaml')}
     Split large specification into manageable chunks
+
+  ${chalk.cyan('esl reverse https://github.com/user/repo --output generated.esl.yaml')}
+    Generate ESL specification from existing GitHub repository
+
+  ${chalk.cyan('esl reverse ./my-project --language typescript --include-comments')}
+    Generate ESL specification from local TypeScript project
 
 ${chalk.yellow('Self-Validation:')}
   ${chalk.cyan('esl validate esl-bootstrap.yaml --strict')}

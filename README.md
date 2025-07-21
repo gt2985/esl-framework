@@ -9,6 +9,7 @@
 - **Interactive Fixes**: Guided resolution of specification drift
 - **Spec-to-Code Sync**: Keep code synchronized with specifications as the source of truth
 - **Code-to-Spec Sync**: Update specifications based on code changes
+- **Reverse Engineering**: Generate ESL specifications from existing codebases
 
 ### 🧠 **AI-Optimized Context Management**
 - **Semantic Chunking**: Intelligent breaking of large specifications while preserving relationships
@@ -46,6 +47,9 @@ esl sync my-spec.esl.yaml ./src --dry-run
 
 # Create AI-optimized context
 esl context create my-spec.esl.yaml --model gpt-4 --tokens 8000
+
+# Generate ESL specification from existing code
+esl reverse https://github.com/user/repo --output generated.esl.yaml
 ```
 
 ## 📊 Core Architecture
@@ -72,6 +76,7 @@ esl context create my-spec.esl.yaml --model gpt-4 --tokens 8000
 - **✅ Spec-to-Code Sync**: `esl sync` command with safety mechanisms
 - **✅ Code Generation**: TypeScript interfaces, services, and controllers
 - **✅ Safety Features**: Dry-run, backup, and confirmation prompts
+- **✅ Reverse Engineering**: `esl reverse` command to generate specs from existing code
 
 ### 🧠 **Context Management (COMPLETE)**
 - **✅ Semantic Chunking**: Relationship-preserving document splitting
